@@ -200,7 +200,7 @@ setInterval(function(){
 
 setInterval(function() {
   io.sockets.emit('state', players, playerCount, whoseTurn, gameOver);
-}, 1000);
+}, 1000/10);
 
 
 

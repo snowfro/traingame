@@ -26,7 +26,21 @@ imageURL.forEach(src => {  // for each image url
      images.push(image); // add loading image to images array
 
 });
+const trainImages = []; /// array to hold images.
+var trainImageCount = 0;
 
+for (let i=0;i<20;i++){
+  const image = new Image();
+  image.src = "./static/train.svg";
+  image.onload = ()=>{
+      trainImageCount += 1;
+      if(trainImageCount ==20){ // have all loaded????
+          trainsLoaded(); // call function to start rendering
+      }
+      trainImages.push(image);
+
+    }
+  }
 
 var playerName = prompt("Please enter your name", "Name");
 let showRoll=false;
@@ -99,6 +113,7 @@ var playAgain = ()=>{
 
 function allLoaded(){
 
+
   context.clearRect(0, 0, 300, 350);
   context.drawImage(images[7], 0, 50, 300, 300);
     // all images have loaded and can be rendered
@@ -144,11 +159,12 @@ socket.on('spinResult', function(players, whoseTurn, result) {
 
 });
 
+}
 
 
-
-
+function trainsLoaded(){
 socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
+
 
   if (showRoll==true){
     document.getElementById("spin").disabled = true;
@@ -201,16 +217,17 @@ socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
   activePlayerPlaceholder.setAttribute("style","height:25")
   activePlayerListDiv.appendChild(activePlayerPlaceholder);
 
-  for (let i=0; i<activePlayerPosition;i++){
-    let imgItem = document.createElement("img");
-    imgItem=images[7];
-    imgItem.setAttribute("class","img");
-    imgItem.style.height="40px";
-    imgItem.style.width="40px";
 
-    //li.appendChild(document.createElement("img"));
-    activePlayerPlaceholder.appendChild(imgItem);
+  for (let i=0; i<activePlayerPosition;i++){
+    let trainImage = trainImages[i+10];
+    trainImage.setAttribute("class","img");
+    trainImage.style.height="40px";
+    trainImage.style.width="40px";
+    activePlayerPlaceholder.appendChild(trainImage);
   }
+
+
+
   if (activePlayerPosition==10){
     activePlayerListDiv.setAttribute("class","alert alert-success");
     activePlayerPlaceholder.appendChild( document.createTextNode( '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0' ) );
@@ -253,17 +270,16 @@ socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
     inactivePlayerListDiv.appendChild(inactivePlayerPlaceholder);
 
     for (let i=0; i<player.position;i++){
-      //console.log("hit");
-      let imgItem = document.createElement("img");
-      imgItem=images[7];
-      imgItem.setAttribute("class","img");
-      imgItem.style.height="40px";
-      imgItem.style.width="40px";
 
-      //li.appendChild(document.createElement("img"));
-      inactivePlayerPlaceholder.appendChild(imgItem);
+      let trainImage = trainImages[i];
+
+      trainImage.setAttribute("class","img");
+      trainImage.style.height="40px";
+      trainImage.style.width="40px";
+
+      inactivePlayerPlaceholder.appendChild(trainImage);
     }
-    if (activePlayerPosition==10){
+    if (inactivePlayerPosition==10){
       inactivePlayerListDiv.setAttribute("class","alert alert-success");
       inactivePlayerPlaceholder.appendChild(document.createTextNode( '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0' ));
       inactivePlayerPlaceholder.appendChild(document.createTextNode("WINNER"));
