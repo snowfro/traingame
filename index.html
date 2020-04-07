@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Moises' Train Game</title>
+    <style>
+      canvas {
+
+
+      }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+    />
+  </head>
+  <body>
+  <div class="container mt-2" align="center">
+    <h1>Moises' Train Game!</h1>
+    <div class="jumbotron p2-1" align="center">
+
+      <div class="container mt-1">
+        <div align="center">
+
+        <canvas id="canvas"></canvas>
+        <br/>
+        <br/>
+        <div id="playerListDiv" align="left"></div>
+        <button id="spin" onclick="spin()">Spin!</button>
+        <button id="again" disabled="true" onClick="playAgain()">Play Again!</button>
+      </div>
+      </div>
+    </div>
+  </div>
+  </body>
+  <script src="/static/game.js"></script>
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="Layer_1" xmlns:cc="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:ns1="http://sozi.baierouge.fr" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 590 570"
+	 style="enable-background:new 0 0 590 570;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#35EBFF;stroke:#000000;stroke-width:10;stroke-miterlimit:10;}
+	.st1{fill:#808080;stroke:#000000;stroke-width:5.4623;}
+	.st2{fill:#00FF00;stroke:#000000;stroke-width:5.0981;}
+	.st3{fill:#0000FF;stroke:#000000;stroke-width:5.0981;}
+	.st4{fill:#FF0000;stroke:#000000;stroke-width:5.0981;}
+	.st5{fill:#FFFF00;stroke:#000000;stroke-width:5.0981;}
+	.st6{fill:#FF0000;stroke:#333333;stroke-width:9.1038;}
+	.st7{fill:#FF0000;stroke:#333333;stroke-width:9.1038;stroke-dasharray:8.0113,7.6763;}
+	.st8{fill:#FF0000;stroke:#333333;stroke-width:5.4623;}
+	.st9{fill:#FF0000;stroke:#333333;stroke-width:7.6472;stroke-dasharray:8.3755,8.3828;}
+	.st10{fill:#FF0000;stroke:#333333;stroke-width:9.1038;stroke-dasharray:10.1962,10.2035;}
+	.st11{fill:#666666;}
+</style>
+<rect class="st0" width="590" height="570"/>
+<g transform="translate(0) scale(1)">
+	<g id="Train" transform="translate(10)">
+		<path id="frame" class="st1" d="M204.8,328.3l171.8-48.4c5.8-1.6,11.8,1.7,13.5,7.6l3.9,14c1.6,5.8-1.7,11.8-7.6,13.5l-171.8,48.4
+			c-5.8,1.6-11.8-1.7-13.5-7.6l-3.9-14C195.6,335.9,199,329.9,204.8,328.3z"/>
+		<path id="engine" class="st2" d="M190.1,276l101.6-28.6c5.8-1.6,11.8,1.7,13.5,7.6l8.9,31.5c1.6,5.8-1.7,11.8-7.6,13.5
+			l-101.6,28.6c-5.8,1.6-11.8-1.7-13.5-7.6l-8.9-31.5C180.9,283.7,184.3,277.7,190.1,276z"/>
+		<path id="stack" class="st3" d="M192.3,230l10.5-3c3.9-1.1,7.9,1.2,9,5l7.9,28c1.1,3.9-1.2,7.9-5,9l-10.5,3c-3.9,1.1-7.9-1.2-9-5
+			l-7.9-28C186.1,235.1,188.4,231.1,192.3,230z"/>
+		<path id="roof" class="st4" d="M263,172.3l80.6-22.7c3.9-1.1,7.9,1.2,9,5l2,7c1.1,3.9-1.2,7.9-5,9l-80.6,22.7
+			c-3.9,1.1-7.9-1.2-9-5l-2-7C256.9,177.4,259.1,173.4,263,172.3z"/>
+		<path id="cab" class="st5" d="M297,185.4l49.1-13.8c5.8-1.6,11.8,1.7,13.5,7.6l24.7,87.6c1.6,5.8-1.7,11.8-7.6,13.5l-49.1,13.8
+			c-5.8,1.6-11.8-1.7-13.5-7.6l-24.7-87.6C287.8,193.1,291.2,187,297,185.4z"/>
+		<path id="window" class="st3" d="M315.9,199l21-5.9c3.9-1.1,7.9,1.2,9,5l5.9,21c1.1,3.9-1.2,7.9-5,9l-21,5.9c-3.9,1.1-7.9-1.2-9-5
+			l-5.9-21C309.8,204.1,312,200.1,315.9,199z"/>
+		<g id="wheels">
+			<circle class="st6" cx="239.3" cy="356.8" r="21.8"/>
+			<circle id="spoke1" class="st7" cx="239.3" cy="356.8" r="12.7"/>
+			<circle class="st8" cx="239.3" cy="356.8" r="5.5"/>
+			<circle class="st6" cx="298.9" cy="340" r="21.8"/>
+			<circle id="spoke2" class="st9" cx="298.9" cy="340" r="13.5"/>
+			<circle class="st8" cx="298.9" cy="340" r="6.9"/>
+			<circle class="st6" cx="361" cy="318.7" r="25.5"/>
+			<circle id="spoke3" class="st10" cx="361" cy="318.7" r="16.4"/>
+			<circle class="st8" cx="361" cy="318.7" r="9.1"/>
+		</g>
+		<path id="couplingrod" class="st11" d="M233.3,355.6l123.9-48.1c0.9-0.4,2,0.1,2.4,1l0.5,1.4c0.4,0.9-0.1,2-1,2.4l-123.9,48.1
+			c-0.9,0.4-2-0.1-2.4-1l-0.5-1.4C231.9,357,232.4,356,233.3,355.6z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M177.3,498.3h-12V490h12v-12.4h8.5V490h12v8.3h-12v12.4h-8.5V498.3z"/>
+		<path d="M204.7,507.4h9.4v-22.6h-8.3v-7.3c5-1,8.1-2.2,11.4-4.3h8.7v34.1h7.8v9.5h-29V507.4z"/>
+		<path d="M264.6,482h-11.8v-9.9h35.5v9.9h-11.8v34.8h-11.8V482z"/>
+		<path d="M294.8,472.1h16.9c9.6,0,17.9,3.3,17.9,14.4c0,10.8-8.3,15.3-17.9,15.3h-5.1v15h-11.8V472.1z M310.9,492.5
+			c4.7,0,7.2-2.1,7.2-5.9c0-3.9-2.5-5.1-7.2-5.1h-4.3v11H310.9z M309.6,498.8l8-7.8l14.5,25.9h-13.2L309.6,498.8z"/>
+		<path d="M346.2,472.1h14.3l13.6,44.7h-12.5l-5.1-21.7c-1.1-4.3-2.2-9.7-3.3-14.2h-0.3c-1,4.5-2.1,9.9-3.2,14.2l-5.1,21.7h-12.1
+			L346.2,472.1z M342.3,498.2h21.9v9.2h-21.9V498.2z"/>
+		<path d="M378.4,472.1h11.8v44.7h-11.8V472.1z"/>
+		<path d="M400.1,472.1h12.1l9.9,20l4.3,10h0.3c-0.6-4.8-1.5-11.6-1.5-17.1v-12.9h11.3v44.7h-12.1l-9.9-20l-4.3-10h-0.3
+			c0.6,5.1,1.5,11.6,1.5,17.1v12.9h-11.3V472.1z"/>
+	</g>
+</g>
+</svg>
