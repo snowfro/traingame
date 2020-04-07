@@ -287,7 +287,8 @@ socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
         context.clearRect(0, 0, 300, 350);
         context.font = "30px Verdana";
         context.textAlign = "center";
-        context.fillText("GAME OVER", 150, 1750);context.fillText(activePlayer.playerName+" wins!", 150, 225);
+        context.fillText("GAME OVER", 150, 175);
+        context.fillText(player.playerName+" wins!", 150, 225);
 
         context.fill();
       }
