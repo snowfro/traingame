@@ -279,7 +279,7 @@ socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
 
       inactivePlayerPlaceholder.appendChild(trainImage);
     }
-    if (inactivePlayerPosition==10){
+    if (player.position==10){
       inactivePlayerListDiv.setAttribute("class","alert alert-success");
       inactivePlayerPlaceholder.appendChild(document.createTextNode( '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0' ));
       inactivePlayerPlaceholder.appendChild(document.createTextNode("WINNER"));
