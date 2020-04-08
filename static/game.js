@@ -28,7 +28,7 @@ imageURL.forEach(src => {  // for each image url
 });
 const trainImages = []; /// array to hold images.
 var trainImageCount = 0;
-
+/*
 for (let i=0;i<20;i++){
   const image = new Image();
   image.src = "./static/train.svg";
@@ -41,8 +41,16 @@ for (let i=0;i<20;i++){
 
     }
   }
+*/
+const trainImageLoad = new Image();
+trainImageLoad.src = "./static/train.svg";
+/*
+trainImageLoad.onload=function(){
+  trainsLoaded();
+}
+*/
 
-var playerName = prompt("Please enter your name", "Name");
+var playerName = prompt("Please enter your name");
 let showRoll=false;
 var movement = {
   up: false,
@@ -90,7 +98,7 @@ setInterval(function() {
 
 
 
-
+console.log(playerName);
 socket.emit('new player', playerName);
 
 let sessionID;
@@ -98,6 +106,9 @@ let sessionID;
 socket.on('connect', function() {
   //console.log("sid1"+socket.id);
   sessionID = socket.id;
+  setTimeout(()=>{
+    trainsLoaded();
+  },750);
 });
 
 
@@ -111,6 +122,9 @@ var playAgain = ()=>{
   //console.log('again');
 }
 
+socket.on('render', function(){
+  trainsLoaded();
+});
 function allLoaded(){
 
 
@@ -153,17 +167,29 @@ socket.on('spinResult', function(players, whoseTurn, result) {
     context.fill();
     setTimeout(function(){
       showRoll=false;
-    },1000)
-
-  }, 1500);
+      trainsLoaded();
+    },1000);
+  }, 1000);
 
 });
 
 }
 
+let players;
+let playerCount;
+let whoseTurn;
+let gameOver;
+
+socket.on('state', function(_players, _playerCount, _whoseTurn, _gameOver) {
+players = _players;
+playerCount=_playerCount;
+whoseTurn=_whoseTurn;
+gameOver=_gameOver;
+});
+
+
 
 function trainsLoaded(){
-socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
 
 
   if (showRoll==true){
@@ -172,14 +198,14 @@ socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
 
   //console.log("who's turn? "+_whoseTurn);
   //console.log(players[sessionID] && players[sessionID].playerNumber );
-  if (players[sessionID] && players[sessionID].playerNumber==_whoseTurn && !_gameOver){
+  if (players[sessionID] && players[sessionID].playerNumber==whoseTurn && !gameOver){
     document.getElementById("spin").disabled = false;
     //console.log("spin should be enabled");
   } else {
     document.getElementById("spin").disabled = true;
     //console.log("spin shoud be disabled");
   };
-  if (_gameOver){
+  if (gameOver){
     document.getElementById("again").disabled = false;
   } else {
     document.getElementById("again").disabled = true;
@@ -193,6 +219,7 @@ socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
   console.log("Rest:");
   console.log(players);
   //console.log("sid: "+sessionID);
+
 
   let activePlayerPosition = activePlayer && activePlayer.position;
 
@@ -218,21 +245,31 @@ socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
   activePlayerListDiv.appendChild(activePlayerPlaceholder);
 
 
+
+
   for (let i=0; i<activePlayerPosition;i++){
-    let trainImage = trainImages[i+10];
+
+
+
+    let trainImage = new Image();
+    trainImage.src="./static/train.svg";
+
+
     trainImage.setAttribute("class","img");
     trainImage.style.height="40px";
     trainImage.style.width="40px";
+
+
     activePlayerPlaceholder.appendChild(trainImage);
+
+
   }
-
-
 
   if (activePlayerPosition==10){
     activePlayerListDiv.setAttribute("class","alert alert-success");
     activePlayerPlaceholder.appendChild( document.createTextNode( '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0' ) );
     activePlayerPlaceholder.appendChild(document.createTextNode("WINNER"));
-    if (_gameOver){
+    if (gameOver){
       context.clearRect(0, 0, 300, 350);
       context.font = "30px Verdana";
       context.textAlign = "center";
@@ -243,7 +280,7 @@ socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
     }
   }
 
-  if (activePlayer && activePlayer.playerNumber==_whoseTurn){
+  if (activePlayer && activePlayer.playerNumber==whoseTurn){
     activePlayerListDiv.setAttribute("class","alert alert-primary");
   }
 
@@ -251,6 +288,7 @@ socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
 
   for (var id in players) {
     var player = players[id];
+
     //console.log(players);
 
     var inactivePlayerListDiv = document.createElement("div");
@@ -271,8 +309,9 @@ socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
 
     for (let i=0; i<player.position;i++){
 
-      let trainImage = trainImages[i];
+      let trainImage = new Image();
 
+      trainImage.src="./static/train.svg";
       trainImage.setAttribute("class","img");
       trainImage.style.height="40px";
       trainImage.style.width="40px";
@@ -283,7 +322,7 @@ socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
       inactivePlayerListDiv.setAttribute("class","alert alert-success");
       inactivePlayerPlaceholder.appendChild(document.createTextNode( '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0' ));
       inactivePlayerPlaceholder.appendChild(document.createTextNode("WINNER"));
-      if (_gameOver){
+      if (gameOver){
         context.clearRect(0, 0, 300, 350);
         context.font = "30px Verdana";
         context.textAlign = "center";
@@ -294,14 +333,17 @@ socket.on('state', function(players, _playerCount, _whoseTurn, _gameOver) {
       }
     }
 
-    if (player.playerNumber==_whoseTurn){
+    if (player.playerNumber==whoseTurn){
       inactivePlayerListDiv.setAttribute("class","alert alert-primary");
     }
+
 
 }
 
 
-}});
+
+
+}
 
 }
 

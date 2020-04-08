@@ -8,7 +8,7 @@ var app = express();
 var server = http.Server(app);
 var io = socketIO(server);
 
-app.set('port', 5000);
+app.set('port', 3000);
 app.use('/static', express.static(__dirname + '/static'));
 
 
@@ -30,6 +30,7 @@ let playerCount=0;
 let maxPlayers=10;
 let gameOver=false;
 let lastSpin=null;
+
 //console.log("players: "+playerCount);
 
 io.on('connection', function(socket) {
@@ -49,8 +50,9 @@ io.on('connection', function(socket) {
       }
       delete players[socket.id];
       playerCount--;
-      //console.log(players);
+
     }
+
    });
   socket.on('new player', function(data) {
     if (playerCount<maxPlayers){
@@ -62,11 +64,13 @@ io.on('connection', function(socket) {
     playerCount++;
     console.log("pc"+playerCount);
     console.log("id"+socket.id);
+
   } else {
 
   console.log("no more players");
   console.log("playerCount: "+playerCount);
 }
+
 });
 
 
@@ -88,9 +92,11 @@ io.on('connection', function(socket) {
   });
 
 
+
   socket.on('spin', function(){
 
     if (players[socket.id].playerNumber==whoseTurn){
+
       console.log("spin");
       let val = Math.floor(Math.random()*80);
 
@@ -161,6 +167,7 @@ io.on('connection', function(socket) {
 
       io.sockets.emit('spinResult',players, whoseTurn, lastSpin);
 
+
       if (players[socket.id].position == 10){
         gameOver = !gameOver;
         console.log("game over");
@@ -171,7 +178,11 @@ io.on('connection', function(socket) {
     } else {
       whoseTurn=0;
     }
+
+
     }
+
+
   }
   );
 
@@ -181,10 +192,14 @@ if (gameOver){
     let player=players[id];
     player.position=0;
   }
-  whoseTurn=0;
+  whoseTurn=Math.floor(Math.random()*playerCount);
   gameOver = !gameOver;
-
 }
+setTimeout(()=>{
+  io.sockets.emit('render');
+},500);
+
+
 
 });
 
@@ -200,7 +215,8 @@ setInterval(function(){
 
 setInterval(function() {
   io.sockets.emit('state', players, playerCount, whoseTurn, gameOver);
-}, 1000/10);
+
+}, 1000/60);
 
 
 
