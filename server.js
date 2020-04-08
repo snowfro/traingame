@@ -54,7 +54,7 @@ io.on('connection', function(socket) {
       delete players[socket.id];
       playerCount--;
       io.sockets.emit('exit player', playerNameLeaving);
-      io.sockets.emit('render');
+      //io.sockets.emit('render');
     }
 
    });
@@ -76,7 +76,7 @@ io.on('connection', function(socket) {
   console.log("playerCount: "+playerCount);
 }
 io.sockets.emit('enter player', players[socket.id].playerName);
-io.sockets.emit('render');
+//io.sockets.emit('render');
 
 });
 
@@ -192,7 +192,7 @@ if (gameOver){
 }
 setTimeout(()=>{
   io.sockets.emit('render');
-},500);
+},1000);
 
 
 

@@ -49,9 +49,11 @@ let sessionID;
 socket.on('connect', function() {
   //console.log("sid1"+socket.id);
   sessionID = socket.id;
+  /*
   setTimeout(()=>{
     trainsLoaded();
-  },1000);
+  },1500);
+  */
 });
 
 socket.on('enter player', function(name){
@@ -65,7 +67,7 @@ socket.on('enter player', function(name){
   },2000);
   setTimeout(()=>{
     trainsLoaded();
-  },750);
+  },1500);
 
 })
 
@@ -125,7 +127,7 @@ socket.on('spinResult', function(players, whoseTurn, result, playerCount) {
     context.drawImage(imageToDraw, 50, 50, 200, 200);
     context.font = "30px Verdana";
     context.textAlign = "center";
-    context.fillText(playerName+"'s Turn", canvas.width*.5, 335)
+    context.fillText(playerName+"'s Spin", canvas.width*.5, 335)
     context.fill();
   },50);
 
@@ -137,7 +139,7 @@ socket.on('spinResult', function(players, whoseTurn, result, playerCount) {
     context.drawImage(images[result], 0, 0, 300, 300);
     context.font = "30px Verdana";
     context.textAlign = "center";
-    context.fillText(playerName+"'s Turn", canvas.width*.5, 335)
+    context.fillText(playerName+"'s Spin", canvas.width*.5, 335)
     context.fill();
     setTimeout(function(){
       showRoll=false;
@@ -292,6 +294,7 @@ for (let id in players){
       context.textAlign = "center";
       context.fillText("GAME OVER", 150, 175);
       context.fillText(activePlayer.playerName+" wins!", 150, 225);
+      context.fillText("Chooooo Chooooo!", 150, 275);
 
       context.fill();
     }
@@ -345,6 +348,7 @@ for (let id in players){
         context.textAlign = "center";
         context.fillText("GAME OVER", 150, 175);
         context.fillText(player.playerName+" wins!", 150, 225);
+        context.fillText("Chooooo Chooooo!", 150, 275);
 
         context.fill();
       }
