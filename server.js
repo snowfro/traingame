@@ -25,6 +25,7 @@ server.listen(3000, function() {
 });
 
 var whoseTurn = 0;
+var whoseTurnStartTime = Date.now();
 var players = {};
 let playerCount=0;
 let maxPlayers=10;
@@ -38,6 +39,8 @@ io.on('connection', function(socket) {
     console.log('A user disconnected'+socket.id);
     if (players[socket.id]){
     playerNumberLeaving = players[socket.id].playerNumber;
+    playerNameLeaving = players[socket.id].playerName;
+
       console.log("Leaving: #"+playerNumberLeaving);
       for (var id in players){
         let player = players[id];
@@ -50,7 +53,8 @@ io.on('connection', function(socket) {
       }
       delete players[socket.id];
       playerCount--;
-
+      io.sockets.emit('exit player', playerNameLeaving);
+      io.sockets.emit('render');
     }
 
    });
@@ -64,37 +68,25 @@ io.on('connection', function(socket) {
     playerCount++;
     console.log("pc"+playerCount);
     console.log("id"+socket.id);
+    whoseTurnStartTime = Date.now();
 
   } else {
 
   console.log("no more players");
   console.log("playerCount: "+playerCount);
 }
+io.sockets.emit('enter player', players[socket.id].playerName);
+io.sockets.emit('render');
 
 });
 
 
 
-  socket.on('movement', function(data) {
-    var player = players[socket.id] || {};
-    if (data.left) {
-      player.x>5?player.x -= 5:player.x -=0;
-    }
-    if (data.up) {
-      player.y>5?player.y -= 5:player.y -=0;
-    }
-    if (data.right) {
-      player.x<1000?player.x += 5:player.x +=0;
-    }
-    if (data.down) {
-      player.y<800?player.y += 5:player.y +=0;
-    }
-  });
-
-
 
   socket.on('spin', function(){
+    console.log('spin attempt');
 
+    console.log(players[socket.id].playerNumber, whoseTurn);
     if (players[socket.id].playerNumber==whoseTurn){
 
       console.log("spin");
@@ -165,7 +157,7 @@ io.on('connection', function(socket) {
           lastSpin=6;
       }
 
-      io.sockets.emit('spinResult',players, whoseTurn, lastSpin);
+      io.sockets.emit('spinResult',players, whoseTurn, lastSpin, playerCount);
 
 
       if (players[socket.id].position == 10){
@@ -175,8 +167,10 @@ io.on('connection', function(socket) {
 
       if (whoseTurn<playerCount-1){
       whoseTurn++;
+      whoseTurnStartTime = Date.now();
     } else {
       whoseTurn=0;
+      whoseTurnStartTime = Date.now();
     }
 
 
@@ -193,6 +187,7 @@ if (gameOver){
     player.position=0;
   }
   whoseTurn=Math.floor(Math.random()*playerCount);
+  whoseTurnStartTime = Date.now();
   gameOver = !gameOver;
 }
 setTimeout(()=>{
@@ -206,10 +201,10 @@ setTimeout(()=>{
 });
 
 setInterval(function(){
-  console.log(players);
-  console.log("Who's turn?" + whoseTurn);
-  console.log(gameOver?"GAME OVER":"ACTIVE GAME");
-}, 3000);
+  //console.log(players);
+  //console.log("Who's turn?" + whoseTurn);
+  //console.log(gameOver?"GAME OVER":"ACTIVE GAME");
+}, 800);
 
 
 
@@ -218,7 +213,26 @@ setInterval(function() {
 
 }, 1000/60);
 
+setInterval(()=>{
+  let currentTime = Date.now();
 
+  console.log('timeleft '+(15000-(currentTime-whoseTurnStartTime))+" "+whoseTurn);
+  if (currentTime-whoseTurnStartTime>15000){
+
+    console.log("changing turns!!");
+    if (whoseTurn<playerCount-1){
+    whoseTurn++;
+    whoseTurnStartTime = Date.now();
+  } else {
+    whoseTurn=0;
+    whoseTurnStartTime = Date.now();
+  }
+  setTimeout(()=>{
+    io.sockets.emit('render');
+  }, 200);
+
+  }
+},1000);
 
 
 

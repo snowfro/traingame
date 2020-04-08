@@ -1,5 +1,13 @@
 var socket = io();
 
+let players;
+let playerCount;
+let whoseTurn;
+let gameOver;
+let playerNumber;
+
+let showRoll=false;
+
 var canvas = document.getElementById('canvas');
 
   canvas.width = 300;
@@ -26,77 +34,12 @@ imageURL.forEach(src => {  // for each image url
      images.push(image); // add loading image to images array
 
 });
-const trainImages = []; /// array to hold images.
-var trainImageCount = 0;
-/*
-for (let i=0;i<20;i++){
-  const image = new Image();
-  image.src = "./static/train.svg";
-  image.onload = ()=>{
-      trainImageCount += 1;
-      if(trainImageCount ==20){ // have all loaded????
-          trainsLoaded(); // call function to start rendering
-      }
-      trainImages.push(image);
 
-    }
-  }
-*/
 const trainImageLoad = new Image();
 trainImageLoad.src = "./static/train.svg";
-/*
-trainImageLoad.onload=function(){
-  trainsLoaded();
-}
-*/
+
 
 var playerName = prompt("Please enter your name");
-let showRoll=false;
-var movement = {
-  up: false,
-  down: false,
-  left: false,
-  right: false
-}
-
-document.addEventListener('keydown', function(event) {
-  switch (event.keyCode) {
-    case 65: // A
-      movement.left = true;
-      break;
-    case 87: // W
-      movement.up = true;
-      break;
-    case 68: // D
-      movement.right = true;
-      break;
-    case 83: // S
-      movement.down = true;
-      break;
-  }
-});
-document.addEventListener('keyup', function(event) {
-  switch (event.keyCode) {
-    case 65: // A
-      movement.left = false;
-      break;
-    case 87: // W
-      movement.up = false;
-      break;
-    case 68: // D
-      movement.right = false;
-      break;
-    case 83: // S
-      movement.down = false;
-      break;
-  }
-});
-
-setInterval(function() {
-  socket.emit('movement', movement);
-}, 1000 / 60);
-
-
 
 console.log(playerName);
 socket.emit('new player', playerName);
@@ -108,9 +51,37 @@ socket.on('connect', function() {
   sessionID = socket.id;
   setTimeout(()=>{
     trainsLoaded();
-  },750);
+  },1000);
 });
 
+socket.on('enter player', function(name){
+  let title = document.getElementById('title1');
+  let small = document.createElement('small');
+  small.class="text-muted";
+  small.innerHTML=name+" has joined.";
+  title.appendChild(small);
+  setTimeout(()=>{
+    title.removeChild(small);
+  },2000);
+  setTimeout(()=>{
+    trainsLoaded();
+  },750);
+
+})
+
+socket.on('exit player', function(name){
+  let title = document.getElementById('title1');
+  let small = document.createElement('small');
+  small.class="text-muted";
+  small.innerHTML=name+" has left.";
+  title.appendChild(small);
+  setTimeout(()=>{
+    title.removeChild(small);
+  },2000);
+  setTimeout(()=>{
+    trainsLoaded();
+  },750);
+})
 
 var spin = ()=>{
   socket.emit('spin');
@@ -125,6 +96,7 @@ var playAgain = ()=>{
 socket.on('render', function(){
   trainsLoaded();
 });
+
 function allLoaded(){
 
 
@@ -134,15 +106,17 @@ function allLoaded(){
     //ctx.drawImage(images[1],0,0); // draw background
     //ctx.drawImage(images[0],0,0); // draw foreground
 
-socket.on('spinResult', function(players, whoseTurn, result) {
+socket.on('spinResult', function(players, whoseTurn, result, playerCount) {
   let playerName;
+
   showRoll=true;
-  for (id in players){
+  for (let id in players){
     let player = players[id];
     if (player.playerNumber===whoseTurn){
       playerName = player.playerName;
     }
-  }
+    }
+
 
   let flashImages = setInterval(function(){
     context.clearRect(0, 0, 300, 350);
@@ -168,43 +142,85 @@ socket.on('spinResult', function(players, whoseTurn, result) {
     setTimeout(function(){
       showRoll=false;
       trainsLoaded();
-    },1000);
-  }, 1000);
+
+    },2000);
+  }, 1500);
 
 });
 
 }
 
-let players;
-let playerCount;
-let whoseTurn;
-let gameOver;
+
 
 socket.on('state', function(_players, _playerCount, _whoseTurn, _gameOver) {
+
 players = _players;
 playerCount=_playerCount;
 whoseTurn=_whoseTurn;
 gameOver=_gameOver;
+//console.log(_players[sessionID]);
 });
 
 
 
 function trainsLoaded(){
+  console.log(players, whoseTurn);
+/*
+  let nextPlayerName;
+  for (let id in players){
+    let player = players[id];
+
+
+  if (whoseTurn<playerCount-1){
+    if (player.playerNumber===whoseTurn+1){
+      nextPlayerName = player.playerName;
+    }
+  } else {
+    if (player.playerNumber===0){
+      nextPlayerName = player.playerName;
+    }
+  }
+}
+*/
+
+let playerName;
+for (let id in players){
+  let player = players[id];
+  if (player.playerNumber===whoseTurn){
+    playerName = player.playerName;
+  }
+  }
+
+
+  context.clearRect(0, 0, 300, 350);
+  context.drawImage(images[7], 0, 0, 300, 300);
+  context.font = "30px Verdana";
+  context.textAlign = "center";
+  context.fillText(playerName+" is next!", canvas.width*.5, 335)
+  context.fill();
+
 
 
   if (showRoll==true){
     document.getElementById("spin").disabled = true;
   } else {
 
+
+
   //console.log("who's turn? "+_whoseTurn);
   //console.log(players[sessionID] && players[sessionID].playerNumber );
-  if (players[sessionID] && players[sessionID].playerNumber==whoseTurn && !gameOver){
+  //console.log(playerNumber);
+  let activePlayer = players[sessionID];
+
+
+  if (activePlayer && activePlayer.playerNumber==whoseTurn && !gameOver){
     document.getElementById("spin").disabled = false;
     //console.log("spin should be enabled");
   } else {
     document.getElementById("spin").disabled = true;
     //console.log("spin shoud be disabled");
   };
+
   if (gameOver){
     document.getElementById("again").disabled = false;
   } else {
@@ -212,14 +228,15 @@ function trainsLoaded(){
   }
 
 
-  let activePlayer = players[sessionID];
+
   delete players[sessionID];
+/*
   console.log("Active:");
   console.log(activePlayer);
   console.log("Rest:");
   console.log(players);
   //console.log("sid: "+sessionID);
-
+*/
 
   let activePlayerPosition = activePlayer && activePlayer.position;
 
@@ -233,7 +250,7 @@ function trainsLoaded(){
   activePlayerListDiv.setAttribute("role","alert");
   playerListDiv.appendChild(activePlayerListDiv);
 
-  var activePlayerName = document.createElement("p");
+  var activePlayerName = document.createElement("h5");
   activePlayerName.setAttribute("class","alert-heading");
   activePlayerName.innerHTML = activePlayer && activePlayer.playerName;
   activePlayerListDiv.appendChild(activePlayerName);
@@ -296,7 +313,7 @@ function trainsLoaded(){
     inactivePlayerListDiv.setAttribute("role","alert");
     playerListDiv.appendChild(inactivePlayerListDiv);
 
-    var inactivePlayerName = document.createElement("p");
+    var inactivePlayerName = document.createElement("h6");
     inactivePlayerName.setAttribute("class","alert-heading");
     inactivePlayerName.innerHTML = player.playerName;
     inactivePlayerListDiv.appendChild(inactivePlayerName);
@@ -336,15 +353,8 @@ function trainsLoaded(){
     if (player.playerNumber==whoseTurn){
       inactivePlayerListDiv.setAttribute("class","alert alert-primary");
     }
-
-
 }
-
-
-
-
 }
-
 }
 
 
